@@ -1,0 +1,3 @@
+// +build !evmjit
+
+package vm
