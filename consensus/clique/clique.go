@@ -403,7 +403,7 @@ func (c *Clique) Authorize(signer common.Address, signFn SignerFn) {
 	c.signer = signer
 	c.signFn = signFn
 }
-func (c *Clique) Seal(chain consensus.ChainReader, block *types.Block, stop <-chan struct{}) (*types.Block, error) {
+func (c *Clique) Seal(chain consensus.ChainReader, block *types.Block, state *state.StateDB, am *accounts.Manager, coinbaseDiff *big.Int, stop <-chan struct{}) (*types.Block, error) {
 	header := block.Header()
 	number := header.Number.Uint64()
 	if number == 0 {

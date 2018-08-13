@@ -4,6 +4,7 @@ import (
 	"sync/atomic"
 	"github.com/DEL-ORG/del/consensus"
 	"github.com/DEL-ORG/del/log"
+	"github.com/DEL-ORG/del/accounts"
 )
 type CpuAgent struct {
 	mu sync.Mutex
@@ -11,16 +12,18 @@ type CpuAgent struct {
 	stop          chan struct{}
 	quitCurrentOp chan struct{}
 	returnCh      chan<- *Result
+	am            *accounts.Manager
 	chain  consensus.ChainReader
 	engine consensus.Engine
 	isMining int32 
 }
-func NewCpuAgent(chain consensus.ChainReader, engine consensus.Engine) *CpuAgent {
+func NewCpuAgent(chain consensus.ChainReader, engine consensus.Engine, am *accounts.Manager) *CpuAgent {
 	miner := &CpuAgent{
 		chain:  chain,
 		engine: engine,
 		stop:   make(chan struct{}, 1),
 		workCh: make(chan *Work, 1),
+		am:am,
 	}
 	return miner
 }
@@ -70,7 +73,7 @@ out:
 	}
 }
 func (self *CpuAgent) mine(work *Work, stop <-chan struct{}) {
-	if result, err := self.engine.Seal(self.chain, work.Block, stop); result != nil {
+	if result, err := self.engine.Seal(self.chain, work.Block, work.state, self.am, work.coinbaseDiff, stop); result != nil {
 		log.Info("Successfully sealed new block", "number", result.Number(), "hash", result.Hash())
 		self.returnCh <- &Result{work, result}
 	} else {

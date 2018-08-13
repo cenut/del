@@ -6,6 +6,7 @@ import (
 	"github.com/DEL-ORG/del/params"
 	"github.com/DEL-ORG/del/rpc"
 	"math/big"
+	"github.com/DEL-ORG/del/accounts"
 )
 type ChainReader interface {
 	Config() *params.ChainConfig
@@ -32,7 +33,7 @@ type Engine interface {
 		uncles []*types.Header, receipts []*types.Receipt, producers types.Producers, voters types.Voters) (*types.Block, error)
 	CalProducersWithoutParent(chain ChainReader, header *types.Header) (producers types.Producers, err error)
 	CalProducers(chain ChainReader, header *types.Header) (producers types.Producers, err error)
-	Seal(chain ChainReader, block *types.Block, stop <-chan struct{}) (*types.Block, error)
+	Seal(chain ChainReader, block *types.Block, state *state.StateDB, am *accounts.Manager, coinbaseDiff *big.Int,stop <-chan struct{}) (*types.Block, error)
 	CalcDifficulty(chain ChainReader, header *types.Header, txs types.Transactions) *big.Int
 	APIs(chain ChainReader) []rpc.API
 }
