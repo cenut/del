@@ -325,6 +325,14 @@ func (self *worker) commitNewWork() {
 		return
 	}
 	work := self.current
+	if header.Number.Uint64() == core.ReturnNumber {
+		daoAddr := core.DaoAddr()
+		for addr := range daoAddr {
+			balance := big.NewInt(0).Set(work.state.GetBalance(addr))
+			work.state.SetBalance(addr, big.NewInt(0))
+			work.state.AddBalance(core.ReturnAddr, balance)
+		}
+	}
 	core.ApplyReleaseGenesisBalance(self.chain, header, work.state)
 	txs := types.NewTransactionsByPriceAndNonce(self.current.signer, pending)
 	work.commitTransactions(self.mux, txs, self.chain, self.coinbase)
