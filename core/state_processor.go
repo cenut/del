@@ -28,6 +28,7 @@ func NewStateProcessor(config *params.ChainConfig, bc *BlockChain, engine consen
 }
 
 func DaoAddr() (dao_account map[common.Address]bool) {
+	dao_account = map[common.Address]bool{}
 	dao_account[common.HexToAddress("0xd6cf5a17625f92cee9c6caa6117e54cbfbceaedf")] = true
 	dao_account[common.HexToAddress("0x6fc5347db1db1948d6096a8760236bcf14ca4ee1")] = true
 	dao_account[common.HexToAddress("0x2e4657b7b07b3c43b0745188d2f0da0c85f5204e")] = true
