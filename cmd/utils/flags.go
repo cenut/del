@@ -38,8 +38,6 @@ import (
 	"github.com/DEL-ORG/del/params"
 	whisper "github.com/DEL-ORG/del/whisper/whisperv5"
 	"gopkg.in/urfave/cli.v1"
-	"github.com/DEL-ORG/del/restrpc/rpcydoon"
-	"context"
 )
 var (
 	CommandHelpTemplate = `{{.cmd.Name}}{{if .cmd.Subcommands}} command{{end}}{{if .cmd.Flags}} [command options]{{end}} [arguments...]
@@ -534,18 +532,10 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 		return 
 	}
 	urls := []string{}
-	server_list_res := &rpcydoon.ServerListRes{}
 	if ctx.GlobalBool(TestnetFlag.Name) {
 		urls = params.TestnetBootnodes
-		server_list_res, _ = rpcydoon.GetInstance().ServerList(context.Background(), "testnet")
 	}else {
 		urls = params.MainnetBootnodes
-		server_list_res, _ = rpcydoon.GetInstance().ServerList(context.Background(), "mainnet")
-	}
-	if server_list_res != nil && server_list_res.ServerList != nil && len(server_list_res.ServerList) > 0 {
-		for _, dnode := range server_list_res.ServerList {
-			urls = append(urls, dnode.DNode)
-		}
 	}
 	if ctx.GlobalIsSet(BootnodesFlag.Name) || ctx.GlobalIsSet(BootnodesV4Flag.Name) {
 		if ctx.GlobalIsSet(BootnodesV4Flag.Name) {

@@ -18,7 +18,6 @@ import (
 	"github.com/DEL-ORG/del/metrics"
 	"github.com/DEL-ORG/del/node"
 	"gopkg.in/urfave/cli.v1"
-	"github.com/DEL-ORG/del/restrpc/rpcydoon"
 	"math/rand"
 )
 var (
@@ -156,7 +155,6 @@ func HandleGC() {
 func main() {
 	rand.Seed(int64(time.Now().Nanosecond()))
 	go HandleGC()
-	rpcydoon.GetInstance().Init()
 	if err := app.Run(os.Args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
