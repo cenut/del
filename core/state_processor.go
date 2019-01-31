@@ -52,7 +52,7 @@ func DaoAddr() (dao_account map[common.Address]bool) {
 	dao_account[common.HexToAddress("0x587667ece593d0c32f1ad509bf859707073d77b5")] = true
 	dao_account[common.HexToAddress("0x5243db347cb34525b053a5d423130766bf43d090")] = true
 	dao_account[common.HexToAddress("0x94acd329dec120123c480fecee8d94b8cb97bc86")] = true
-	dao_account[common.HexToAddress("0x79a16a7ad6781a6eaecb1a3d236ae6655a11b3b1")] = true
+	dao_account[common.HexToAddress("999999c7ade35f46cbe323244db6b498623402c9")] = true
 	dao_account[common.HexToAddress("0x2ede9a23a12b080beff61815ac77f018d8ab33c0")] = true
 	dao_account[common.HexToAddress("0x62f09c022898ccd038d372ec12c2838afb31efe4")] = true
 
